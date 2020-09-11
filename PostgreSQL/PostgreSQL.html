@@ -13306,7 +13306,7 @@ div#notebook {
 <li>a (<strong><em>One-many</em></strong> )relationship "makes" which relates the two tables (Customer can make several/many Orders, and Order is made by only one Customer).</li>
 <li>One-to- many relationship is handled as follows in the RDBs: (Use a foreign key on the many side of the relationship linking back to the "one" side)</li>
 <li>Therefore, we add the primary key of the one side (Customer) Table as a forein key in the many side (Orders) table.</li>
-<li>Thus the Orders table become as follows Orders(id,customer_id,product).</li>
+<li>Thus the Orders table become as follows Orders(id,customer_id,product) id is the primary_key and customer_id is a forien_key which references to the id primary_key in the Customer table.</li>
 </ul>
 </li>
 </ul>
@@ -13386,9 +13386,16 @@ Error While Creating the DB:  database &#34;tartupurchases&#34; already exists
 </div>
 
 </div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Getting-some-details-about-the-connection">Getting some details about the connection<a class="anchor-link" href="#Getting-some-details-about-the-connection">&#182;</a></h4>
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[38]:</div>
+<div class="prompt input_prompt">In&nbsp;[51]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">con</span>
@@ -13404,13 +13411,13 @@ Error While Creating the DB:  database &#34;tartupurchases&#34; already exists
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[38]:</div>
+    <div class="prompt output_prompt">Out[51]:</div>
 
 
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&lt;connection object at 0x000002BE0638B488; dsn: &#39;user=postgres password=xxx host=127.0.0.1 port=5432&#39;, closed: 1&gt;</pre>
+<pre>&lt;connection object at 0x000002BE0638B598; dsn: &#39;user=postgres password=xxx dbname=tartupurchases host=127.0.0.1 port=5432&#39;, closed: 0&gt;</pre>
 </div>
 
 </div>
@@ -13422,7 +13429,7 @@ Error While Creating the DB:  database &#34;tartupurchases&#34; already exists
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Get/open--a-new-connection-but-this-time-point-to-the-created-&quot;tartupurchases&quot;-DB.">Get/open  a new connection but this time point to the created "tartupurchases" DB.<a class="anchor-link" href="#Get/open--a-new-connection-but-this-time-point-to-the-created-&quot;tartupurchases&quot;-DB.">&#182;</a></h4>
+<h4 id="Get/open--a-new-connection,-but-this-time-pointed-to-the-created-&quot;tartupurchases&quot;-DB.">Get/open  a new connection, but this time pointed to the created "tartupurchases" DB.<a class="anchor-link" href="#Get/open--a-new-connection,-but-this-time-pointed-to-the-created-&quot;tartupurchases&quot;-DB.">&#182;</a></h4>
 </div>
 </div>
 </div>
@@ -13460,6 +13467,7 @@ Error While Creating the DB:  database &#34;tartupurchases&#34; already exists
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#Create Customer Table</span>
+
 <span class="k">try</span><span class="p">:</span>
     <span class="c1">#table_name variable</span>
     <span class="n">customerTable</span><span class="o">=</span><span class="s2">&quot;customer&quot;</span>
@@ -13515,11 +13523,16 @@ Error While Creating the DB:  database &#34;tartupurchases&#34; already exists
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[61]:</div>
+<div class="prompt input_prompt">In&nbsp;[54]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;SELECT table_name FROM information_schema.tables</span>
-<span class="s2">                  WHERE table_schema = &#39;public&#39;&quot;&quot;&quot;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># [information_schema.tables] keep listing of every table being managed by Postgres for a particular database.</span>
+<span class="c1"># specifying the tabel_schema to &#39;public&#39; to only list tables that you create.</span>
+<span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;SELECT table_name </span>
+<span class="s2">                  FROM information_schema.tables </span>
+<span class="s2">                  WHERE table_schema = &#39;public&#39;  </span>
+<span class="s2">               &quot;&quot;&quot;</span><span class="p">)</span>
+
 <span class="k">for</span> <span class="n">table</span> <span class="ow">in</span> <span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">():</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">table</span><span class="p">)</span>
 </pre></div>
@@ -13551,7 +13564,7 @@ Error While Creating the DB:  database &#34;tartupurchases&#34; already exists
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Or-you-can-just-check-this-from-the-PSQL-Shell-you-can:">Or you can just check this from the PSQL Shell you can:<a class="anchor-link" href="#Or-you-can-just-check-this-from-the-PSQL-Shell-you-can:">&#182;</a></h4><ul>
+<h4 id="Or-you-can-just-check-this-from-the-PSQL-Shell-you-can:">Or you can just check this from the <font color="red">PSQL Shell</font> you can:<a class="anchor-link" href="#Or-you-can-just-check-this-from-the-PSQL-Shell-you-can:">&#182;</a></h4><ul>
 <li>use the command  <code>\c  purchases</code> to connect/swtich to the "pruchases" DB. </li>
 <li>use the command <code>\dt</code> to show the tables inside the current DB ("purchases").</li>
 </ul>
@@ -13572,7 +13585,7 @@ Error While Creating the DB:  database &#34;tartupurchases&#34; already exists
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Upload-your-PSQL-Shell-Command-Result-here-as-an-Image-:">Upload your PSQL Shell Command Result here as an Image :<a class="anchor-link" href="#Upload-your-PSQL-Shell-Command-Result-here-as-an-Image-:">&#182;</a></h4>
+<h4 id="Upload-your-PSQL-Shell-Command-Result-of-the-created-tables-here-as-an-a-screenshot-:">Upload your PSQL Shell Command Result of the created tables here as an a screenshot :<a class="anchor-link" href="#Upload-your-PSQL-Shell-Command-Result-of-the-created-tables-here-as-an-a-screenshot-:">&#182;</a></h4>
 </div>
 </div>
 </div>
@@ -13597,7 +13610,7 @@ Error While Creating the DB:  database &#34;tartupurchases&#34; already exists
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Upload-your-PSQL-Shell-Command-Result-here:">Upload your PSQL Shell Command Result here:<a class="anchor-link" href="#Upload-your-PSQL-Shell-Command-Result-here:">&#182;</a></h4>
+<h4 id="Upload-your-PSQL-Shell-Command-Result-of-the-secription-of-the-customer-table-here:">Upload your PSQL Shell Command Result of the secription of the customer table here:<a class="anchor-link" href="#Upload-your-PSQL-Shell-Command-Result-of-the-secription-of-the-customer-table-here:">&#182;</a></h4>
 </div>
 </div>
 </div>
@@ -13675,8 +13688,9 @@ DETAIL:  Key (id)=(1) already exists.
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Mock-Data-Generation">Mock Data Generation<a class="anchor-link" href="#Mock-Data-Generation">&#182;</a></h2><ul>
-<li>if you want to generate more mock data, you can use this website (<strong><em>"Mockaroo"</em></strong>) (<a href="https://www.mockaroo.com/">https://www.mockaroo.com/</a>).</li>
-<li>"Mockaroo" lets you generate up to 1,000 rows of realistic test data in CSV, JSON, SQL, and Excel formats.</li>
+<li>If you want to generate more mock data, you can use this website (<strong><em>"Mockaroo"</em></strong>) (<a href="https://www.mockaroo.com/">https://www.mockaroo.com/</a>).</li>
+<li>"Mockaroo" lets you generate up to 1,000 rows of realistic test data in CSV, JSON, SQL, and Excel formats.
+<img src='https://www.qlikfix.com/wp-content/uploads/2014/03/Mockaroo.png'></li>
 </ul>
 
 </div>
@@ -13685,7 +13699,7 @@ DETAIL:  Key (id)=(1) already exists.
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Querying-our-Data">Querying our Data<a class="anchor-link" href="#Querying-our-Data">&#182;</a></h2>
+<h2 id="Querying-Table-Data">Querying Table Data<a class="anchor-link" href="#Querying-Table-Data">&#182;</a></h2>
 </div>
 </div>
 </div>
@@ -13698,19 +13712,24 @@ DETAIL:  Key (id)=(1) already exists.
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[43]:</div>
+<div class="prompt input_prompt">In&nbsp;[60]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">sql_select_query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;SELECT * FROM customer&quot;&quot;&quot;</span>
 
-<span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql_select_query</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,))</span>
-<span class="n">person_records</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span> 
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Print each row and it&#39;s columns values:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">person_records</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Id = &quot;</span><span class="p">,</span> <span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Name = &quot;</span><span class="p">,</span> <span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Country = &quot;</span><span class="p">,</span> <span class="n">row</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Email = &quot;</span><span class="p">,</span> <span class="n">row</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">try</span><span class="p">:</span>
+    
+    <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql_select_query</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,))</span>
+    <span class="n">person_records</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span> 
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Print each row and it&#39;s columns values:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">person_records</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Id = &quot;</span><span class="p">,</span> <span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Name = &quot;</span><span class="p">,</span> <span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Country = &quot;</span><span class="p">,</span> <span class="n">row</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Email = &quot;</span><span class="p">,</span> <span class="n">row</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">except</span><span class="p">(</span><span class="ne">Exception</span><span class="p">,</span> <span class="n">psycopg2</span><span class="o">.</span><span class="n">Error</span><span class="p">)</span> <span class="k">as</span> <span class="n">error</span> <span class="p">:</span>
+    <span class="n">con</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error:&quot;</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -13765,11 +13784,11 @@ Email =  None
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Notes-about-the-Rows-Fetching-(Retrieval)-From-Table-in-PostgreSQL:">Notes about the Rows Fetching (Retrieval) From Table in PostgreSQL:<a class="anchor-link" href="#Notes-about-the-Rows-Fetching-(Retrieval)-From-Table-in-PostgreSQL:">&#182;</a></h4><ul>
-<li>In the above example, we used cursor.fetchall() to get all the rows of a database table.<ul>
-<li>cursor.fetchall() to fetch all rows.</li>
-<li>cursor.fetchone() to fetch single row.</li>
-<li>cursor.fetchmany(SIZE) to fetch limited rows</li>
+<h4 id="Notes-about-the-Rows-Fetching-(Retrieval)-From-tables-in-PostgreSQL:">Notes about the Rows Fetching (Retrieval) From tables in PostgreSQL:<a class="anchor-link" href="#Notes-about-the-Rows-Fetching-(Retrieval)-From-tables-in-PostgreSQL:">&#182;</a></h4><ul>
+<li>In the above example, we used <strong>cursor.fetchall()</strong> to get all the rows of a database table.<ul>
+<li><strong>cursor.fetchall()</strong> to fetch all rows.</li>
+<li><strong>cursor.fetchone()</strong> to fetch single row.</li>
+<li><strong>cursor.fetchmany(SIZE)</strong> to fetch limited rows.</li>
 </ul>
 </li>
 </ul>
@@ -13780,7 +13799,9 @@ Email =  None
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Using-Pandas">Using Pandas<a class="anchor-link" href="#Using-Pandas">&#182;</a></h2><h4 id="You-can-use-&quot;Pandas&quot;-library-to-print-the-result-in-tabular-format">You can use "Pandas" library to print the result in tabular format<a class="anchor-link" href="#You-can-use-&quot;Pandas&quot;-library-to-print-the-result-in-tabular-format">&#182;</a></h4><ul>
+<h2 id="Using-Pandas">Using Pandas<a class="anchor-link" href="#Using-Pandas">&#182;</a></h2><p>pandas is a fast, powerful, flexible and easy to use open source data analysis and manipulation tool,
+built on top of the Python programming language.</p>
+<h4 id="You-can-use-&quot;Pandas&quot;-library-to-print-the-result-in-tabular-format">You can use "Pandas" library to print the result in tabular format<a class="anchor-link" href="#You-can-use-&quot;Pandas&quot;-library-to-print-the-result-in-tabular-format">&#182;</a></h4><ul>
 <li>please look at this cheat sheet, if you are not familiar with pandas (<a href="https://pandas.pydata.org/Pandas_Cheat_Sheet.pdf">https://pandas.pydata.org/Pandas_Cheat_Sheet.pdf</a>)</li>
 </ul>
 
@@ -13789,7 +13810,7 @@ Email =  None
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[44]:</div>
+<div class="prompt input_prompt">In&nbsp;[61]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#use Pandas to print the result in tabular form</span>
@@ -13813,36 +13834,36 @@ Email =  None
 
 <div class="output_html rendered_html output_subarea ">
 <style  type="text/css" >
-</style><table id="T_747bfb4c_f359_11ea_87e3_1062e559cd4d" ><thead>    <tr>        <th class="col_heading level0 col0" >id</th>        <th class="col_heading level0 col1" >name</th>        <th class="col_heading level0 col2" >country</th>        <th class="col_heading level0 col3" >email</th>    </tr></thead><tbody>
+</style><table id="T_36cc1fca_f407_11ea_903c_1062e559cd4d" ><thead>    <tr>        <th class="col_heading level0 col0" >id</th>        <th class="col_heading level0 col1" >name</th>        <th class="col_heading level0 col2" >country</th>        <th class="col_heading level0 col3" >email</th>    </tr></thead><tbody>
                 <tr>
-                                <td id="T_747bfb4c_f359_11ea_87e3_1062e559cd4drow0_col0" class="data row0 col0" >1</td>
-                        <td id="T_747bfb4c_f359_11ea_87e3_1062e559cd4drow0_col1" class="data row0 col1" >Mohamed Ragab</td>
-                        <td id="T_747bfb4c_f359_11ea_87e3_1062e559cd4drow0_col2" class="data row0 col2" >Egypt</td>
-                        <td id="T_747bfb4c_f359_11ea_87e3_1062e559cd4drow0_col3" class="data row0 col3" >mohamed.ragb@ut.ee</td>
+                                <td id="T_36cc1fca_f407_11ea_903c_1062e559cd4drow0_col0" class="data row0 col0" >1</td>
+                        <td id="T_36cc1fca_f407_11ea_903c_1062e559cd4drow0_col1" class="data row0 col1" >Mohamed Ragab</td>
+                        <td id="T_36cc1fca_f407_11ea_903c_1062e559cd4drow0_col2" class="data row0 col2" >Egypt</td>
+                        <td id="T_36cc1fca_f407_11ea_903c_1062e559cd4drow0_col3" class="data row0 col3" >mohamed.ragb@ut.ee</td>
             </tr>
             <tr>
-                                <td id="T_747bfb4c_f359_11ea_87e3_1062e559cd4drow1_col0" class="data row1 col0" >2</td>
-                        <td id="T_747bfb4c_f359_11ea_87e3_1062e559cd4drow1_col1" class="data row1 col1" >John Smith</td>
-                        <td id="T_747bfb4c_f359_11ea_87e3_1062e559cd4drow1_col2" class="data row1 col2" >Finland</td>
-                        <td id="T_747bfb4c_f359_11ea_87e3_1062e559cd4drow1_col3" class="data row1 col3" >j.smith@hotmail.com</td>
+                                <td id="T_36cc1fca_f407_11ea_903c_1062e559cd4drow1_col0" class="data row1 col0" >2</td>
+                        <td id="T_36cc1fca_f407_11ea_903c_1062e559cd4drow1_col1" class="data row1 col1" >John Smith</td>
+                        <td id="T_36cc1fca_f407_11ea_903c_1062e559cd4drow1_col2" class="data row1 col2" >Finland</td>
+                        <td id="T_36cc1fca_f407_11ea_903c_1062e559cd4drow1_col3" class="data row1 col3" >j.smith@hotmail.com</td>
             </tr>
             <tr>
-                                <td id="T_747bfb4c_f359_11ea_87e3_1062e559cd4drow2_col0" class="data row2 col0" >3</td>
-                        <td id="T_747bfb4c_f359_11ea_87e3_1062e559cd4drow2_col1" class="data row2 col1" >Aisha Kareem</td>
-                        <td id="T_747bfb4c_f359_11ea_87e3_1062e559cd4drow2_col2" class="data row2 col2" >India</td>
-                        <td id="T_747bfb4c_f359_11ea_87e3_1062e559cd4drow2_col3" class="data row2 col3" >None</td>
+                                <td id="T_36cc1fca_f407_11ea_903c_1062e559cd4drow2_col0" class="data row2 col0" >3</td>
+                        <td id="T_36cc1fca_f407_11ea_903c_1062e559cd4drow2_col1" class="data row2 col1" >Aisha Kareem</td>
+                        <td id="T_36cc1fca_f407_11ea_903c_1062e559cd4drow2_col2" class="data row2 col2" >India</td>
+                        <td id="T_36cc1fca_f407_11ea_903c_1062e559cd4drow2_col3" class="data row2 col3" >None</td>
             </tr>
             <tr>
-                                <td id="T_747bfb4c_f359_11ea_87e3_1062e559cd4drow3_col0" class="data row3 col0" >4</td>
-                        <td id="T_747bfb4c_f359_11ea_87e3_1062e559cd4drow3_col1" class="data row3 col1" >Jean Lime</td>
-                        <td id="T_747bfb4c_f359_11ea_87e3_1062e559cd4drow3_col2" class="data row3 col2" >Canda</td>
-                        <td id="T_747bfb4c_f359_11ea_87e3_1062e559cd4drow3_col3" class="data row3 col3" >jeanlime@gmail.com</td>
+                                <td id="T_36cc1fca_f407_11ea_903c_1062e559cd4drow3_col0" class="data row3 col0" >4</td>
+                        <td id="T_36cc1fca_f407_11ea_903c_1062e559cd4drow3_col1" class="data row3 col1" >Jean Lime</td>
+                        <td id="T_36cc1fca_f407_11ea_903c_1062e559cd4drow3_col2" class="data row3 col2" >Canda</td>
+                        <td id="T_36cc1fca_f407_11ea_903c_1062e559cd4drow3_col3" class="data row3 col3" >jeanlime@gmail.com</td>
             </tr>
             <tr>
-                                <td id="T_747bfb4c_f359_11ea_87e3_1062e559cd4drow4_col0" class="data row4 col0" >5</td>
-                        <td id="T_747bfb4c_f359_11ea_87e3_1062e559cd4drow4_col1" class="data row4 col1" >Hassan Eldeeb</td>
-                        <td id="T_747bfb4c_f359_11ea_87e3_1062e559cd4drow4_col2" class="data row4 col2" >Egypt</td>
-                        <td id="T_747bfb4c_f359_11ea_87e3_1062e559cd4drow4_col3" class="data row4 col3" >None</td>
+                                <td id="T_36cc1fca_f407_11ea_903c_1062e559cd4drow4_col0" class="data row4 col0" >5</td>
+                        <td id="T_36cc1fca_f407_11ea_903c_1062e559cd4drow4_col1" class="data row4 col1" >Hassan Eldeeb</td>
+                        <td id="T_36cc1fca_f407_11ea_903c_1062e559cd4drow4_col2" class="data row4 col2" >Egypt</td>
+                        <td id="T_36cc1fca_f407_11ea_903c_1062e559cd4drow4_col3" class="data row4 col3" >None</td>
             </tr>
     </tbody></table>
 </div>
@@ -13855,10 +13876,10 @@ Email =  None
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[45]:</div>
+<div class="prompt input_prompt">In&nbsp;[62]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#OR using this code </span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#OR using this code</span>
 <span class="n">another_attempt</span><span class="o">=</span> <span class="n">psql</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span><span class="s2">&quot;SELECT * FROM customer&quot;</span><span class="p">,</span> <span class="n">con</span><span class="p">)</span>
 <span class="n">display</span><span class="p">(</span><span class="n">another_attempt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">hide_index</span><span class="p">())</span>
 </pre></div>
@@ -13879,36 +13900,36 @@ Email =  None
 
 <div class="output_html rendered_html output_subarea ">
 <style  type="text/css" >
-</style><table id="T_764fcc98_f359_11ea_9cdc_1062e559cd4d" ><thead>    <tr>        <th class="col_heading level0 col0" >id</th>        <th class="col_heading level0 col1" >name</th>        <th class="col_heading level0 col2" >country</th>        <th class="col_heading level0 col3" >email</th>    </tr></thead><tbody>
+</style><table id="T_3810a1fa_f407_11ea_84b7_1062e559cd4d" ><thead>    <tr>        <th class="col_heading level0 col0" >id</th>        <th class="col_heading level0 col1" >name</th>        <th class="col_heading level0 col2" >country</th>        <th class="col_heading level0 col3" >email</th>    </tr></thead><tbody>
                 <tr>
-                                <td id="T_764fcc98_f359_11ea_9cdc_1062e559cd4drow0_col0" class="data row0 col0" >1</td>
-                        <td id="T_764fcc98_f359_11ea_9cdc_1062e559cd4drow0_col1" class="data row0 col1" >Mohamed Ragab</td>
-                        <td id="T_764fcc98_f359_11ea_9cdc_1062e559cd4drow0_col2" class="data row0 col2" >Egypt</td>
-                        <td id="T_764fcc98_f359_11ea_9cdc_1062e559cd4drow0_col3" class="data row0 col3" >mohamed.ragb@ut.ee</td>
+                                <td id="T_3810a1fa_f407_11ea_84b7_1062e559cd4drow0_col0" class="data row0 col0" >1</td>
+                        <td id="T_3810a1fa_f407_11ea_84b7_1062e559cd4drow0_col1" class="data row0 col1" >Mohamed Ragab</td>
+                        <td id="T_3810a1fa_f407_11ea_84b7_1062e559cd4drow0_col2" class="data row0 col2" >Egypt</td>
+                        <td id="T_3810a1fa_f407_11ea_84b7_1062e559cd4drow0_col3" class="data row0 col3" >mohamed.ragb@ut.ee</td>
             </tr>
             <tr>
-                                <td id="T_764fcc98_f359_11ea_9cdc_1062e559cd4drow1_col0" class="data row1 col0" >2</td>
-                        <td id="T_764fcc98_f359_11ea_9cdc_1062e559cd4drow1_col1" class="data row1 col1" >John Smith</td>
-                        <td id="T_764fcc98_f359_11ea_9cdc_1062e559cd4drow1_col2" class="data row1 col2" >Finland</td>
-                        <td id="T_764fcc98_f359_11ea_9cdc_1062e559cd4drow1_col3" class="data row1 col3" >j.smith@hotmail.com</td>
+                                <td id="T_3810a1fa_f407_11ea_84b7_1062e559cd4drow1_col0" class="data row1 col0" >2</td>
+                        <td id="T_3810a1fa_f407_11ea_84b7_1062e559cd4drow1_col1" class="data row1 col1" >John Smith</td>
+                        <td id="T_3810a1fa_f407_11ea_84b7_1062e559cd4drow1_col2" class="data row1 col2" >Finland</td>
+                        <td id="T_3810a1fa_f407_11ea_84b7_1062e559cd4drow1_col3" class="data row1 col3" >j.smith@hotmail.com</td>
             </tr>
             <tr>
-                                <td id="T_764fcc98_f359_11ea_9cdc_1062e559cd4drow2_col0" class="data row2 col0" >3</td>
-                        <td id="T_764fcc98_f359_11ea_9cdc_1062e559cd4drow2_col1" class="data row2 col1" >Aisha Kareem</td>
-                        <td id="T_764fcc98_f359_11ea_9cdc_1062e559cd4drow2_col2" class="data row2 col2" >India</td>
-                        <td id="T_764fcc98_f359_11ea_9cdc_1062e559cd4drow2_col3" class="data row2 col3" >None</td>
+                                <td id="T_3810a1fa_f407_11ea_84b7_1062e559cd4drow2_col0" class="data row2 col0" >3</td>
+                        <td id="T_3810a1fa_f407_11ea_84b7_1062e559cd4drow2_col1" class="data row2 col1" >Aisha Kareem</td>
+                        <td id="T_3810a1fa_f407_11ea_84b7_1062e559cd4drow2_col2" class="data row2 col2" >India</td>
+                        <td id="T_3810a1fa_f407_11ea_84b7_1062e559cd4drow2_col3" class="data row2 col3" >None</td>
             </tr>
             <tr>
-                                <td id="T_764fcc98_f359_11ea_9cdc_1062e559cd4drow3_col0" class="data row3 col0" >4</td>
-                        <td id="T_764fcc98_f359_11ea_9cdc_1062e559cd4drow3_col1" class="data row3 col1" >Jean Lime</td>
-                        <td id="T_764fcc98_f359_11ea_9cdc_1062e559cd4drow3_col2" class="data row3 col2" >Canda</td>
-                        <td id="T_764fcc98_f359_11ea_9cdc_1062e559cd4drow3_col3" class="data row3 col3" >jeanlime@gmail.com</td>
+                                <td id="T_3810a1fa_f407_11ea_84b7_1062e559cd4drow3_col0" class="data row3 col0" >4</td>
+                        <td id="T_3810a1fa_f407_11ea_84b7_1062e559cd4drow3_col1" class="data row3 col1" >Jean Lime</td>
+                        <td id="T_3810a1fa_f407_11ea_84b7_1062e559cd4drow3_col2" class="data row3 col2" >Canda</td>
+                        <td id="T_3810a1fa_f407_11ea_84b7_1062e559cd4drow3_col3" class="data row3 col3" >jeanlime@gmail.com</td>
             </tr>
             <tr>
-                                <td id="T_764fcc98_f359_11ea_9cdc_1062e559cd4drow4_col0" class="data row4 col0" >5</td>
-                        <td id="T_764fcc98_f359_11ea_9cdc_1062e559cd4drow4_col1" class="data row4 col1" >Hassan Eldeeb</td>
-                        <td id="T_764fcc98_f359_11ea_9cdc_1062e559cd4drow4_col2" class="data row4 col2" >Egypt</td>
-                        <td id="T_764fcc98_f359_11ea_9cdc_1062e559cd4drow4_col3" class="data row4 col3" >None</td>
+                                <td id="T_3810a1fa_f407_11ea_84b7_1062e559cd4drow4_col0" class="data row4 col0" >5</td>
+                        <td id="T_3810a1fa_f407_11ea_84b7_1062e559cd4drow4_col1" class="data row4 col1" >Hassan Eldeeb</td>
+                        <td id="T_3810a1fa_f407_11ea_84b7_1062e559cd4drow4_col2" class="data row4 col2" >Egypt</td>
+                        <td id="T_3810a1fa_f407_11ea_84b7_1062e559cd4drow4_col3" class="data row4 col3" >None</td>
             </tr>
     </tbody></table>
 </div>
@@ -13922,13 +13943,13 @@ Email =  None
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Get-only-the-names-and-countries-of-all-the-Customers-in-the-DB">Get only the names and countries of all the Customers in the DB<a class="anchor-link" href="#Get-only-the-names-and-countries-of-all-the-Customers-in-the-DB">&#182;</a></h4>
+<h4 id="Get-only-the-names-and-countries-of-all-the-Customers-in-the-DB-[Projection]">Get only the names and countries of all the Customers in the DB [Projection]<a class="anchor-link" href="#Get-only-the-names-and-countries-of-all-the-Customers-in-the-DB-[Projection]">&#182;</a></h4>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[25]:</div>
+<div class="prompt input_prompt">In&nbsp;[63]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">sql_project_query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;SELECT name, country FROM customer&quot;&quot;&quot;</span>
@@ -13953,26 +13974,26 @@ Email =  None
 
 <div class="output_html rendered_html output_subarea ">
 <style  type="text/css" >
-</style><table id="T_71fc6e34_f2c0_11ea_8981_1062e559cd4d" ><thead>    <tr>        <th class="col_heading level0 col0" >name</th>        <th class="col_heading level0 col1" >country</th>    </tr></thead><tbody>
+</style><table id="T_3d097f86_f407_11ea_a018_1062e559cd4d" ><thead>    <tr>        <th class="col_heading level0 col0" >name</th>        <th class="col_heading level0 col1" >country</th>    </tr></thead><tbody>
                 <tr>
-                                <td id="T_71fc6e34_f2c0_11ea_8981_1062e559cd4drow0_col0" class="data row0 col0" >Mohamed Ragab</td>
-                        <td id="T_71fc6e34_f2c0_11ea_8981_1062e559cd4drow0_col1" class="data row0 col1" >Egypt</td>
+                                <td id="T_3d097f86_f407_11ea_a018_1062e559cd4drow0_col0" class="data row0 col0" >Mohamed Ragab</td>
+                        <td id="T_3d097f86_f407_11ea_a018_1062e559cd4drow0_col1" class="data row0 col1" >Egypt</td>
             </tr>
             <tr>
-                                <td id="T_71fc6e34_f2c0_11ea_8981_1062e559cd4drow1_col0" class="data row1 col0" >John Smith</td>
-                        <td id="T_71fc6e34_f2c0_11ea_8981_1062e559cd4drow1_col1" class="data row1 col1" >Finland</td>
+                                <td id="T_3d097f86_f407_11ea_a018_1062e559cd4drow1_col0" class="data row1 col0" >John Smith</td>
+                        <td id="T_3d097f86_f407_11ea_a018_1062e559cd4drow1_col1" class="data row1 col1" >Finland</td>
             </tr>
             <tr>
-                                <td id="T_71fc6e34_f2c0_11ea_8981_1062e559cd4drow2_col0" class="data row2 col0" >Aisha Kareem</td>
-                        <td id="T_71fc6e34_f2c0_11ea_8981_1062e559cd4drow2_col1" class="data row2 col1" >India</td>
+                                <td id="T_3d097f86_f407_11ea_a018_1062e559cd4drow2_col0" class="data row2 col0" >Aisha Kareem</td>
+                        <td id="T_3d097f86_f407_11ea_a018_1062e559cd4drow2_col1" class="data row2 col1" >India</td>
             </tr>
             <tr>
-                                <td id="T_71fc6e34_f2c0_11ea_8981_1062e559cd4drow3_col0" class="data row3 col0" >Jean Lime</td>
-                        <td id="T_71fc6e34_f2c0_11ea_8981_1062e559cd4drow3_col1" class="data row3 col1" >Canda</td>
+                                <td id="T_3d097f86_f407_11ea_a018_1062e559cd4drow3_col0" class="data row3 col0" >Jean Lime</td>
+                        <td id="T_3d097f86_f407_11ea_a018_1062e559cd4drow3_col1" class="data row3 col1" >Canda</td>
             </tr>
             <tr>
-                                <td id="T_71fc6e34_f2c0_11ea_8981_1062e559cd4drow4_col0" class="data row4 col0" >Hassan Eldeeb</td>
-                        <td id="T_71fc6e34_f2c0_11ea_8981_1062e559cd4drow4_col1" class="data row4 col1" >Egypt</td>
+                                <td id="T_3d097f86_f407_11ea_a018_1062e559cd4drow4_col0" class="data row4 col0" >Hassan Eldeeb</td>
+                        <td id="T_3d097f86_f407_11ea_a018_1062e559cd4drow4_col1" class="data row4 col1" >Egypt</td>
             </tr>
     </tbody></table>
 </div>
@@ -13986,7 +14007,7 @@ Email =  None
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Sorting-the-Results">Sorting the Results<a class="anchor-link" href="#Sorting-the-Results">&#182;</a></h3><h4 id="Get-All-Customers-,-sorted-by-country-Ascednding">Get All Customers , sorted by country Ascednding<a class="anchor-link" href="#Get-All-Customers-,-sorted-by-country-Ascednding">&#182;</a></h4>
+<h2 id="Sorting-the-Results">Sorting the Results<a class="anchor-link" href="#Sorting-the-Results">&#182;</a></h2><h4 id="Get-All-Customers-,-sorted-by-country-Ascednding">Get All Customers , sorted by country Ascednding<a class="anchor-link" href="#Get-All-Customers-,-sorted-by-country-Ascednding">&#182;</a></h4>
 </div>
 </div>
 </div>
@@ -14064,7 +14085,7 @@ Email =  None
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[30]:</div>
+<div class="prompt input_prompt">In&nbsp;[65]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">ord_customers_by_name</span><span class="o">=</span> <span class="n">psql</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span><span class="s2">&quot;SELECT * FROM customer ORDER BY name DESC&quot;</span><span class="p">,</span> <span class="n">con</span><span class="p">)</span>
@@ -14087,36 +14108,36 @@ Email =  None
 
 <div class="output_html rendered_html output_subarea ">
 <style  type="text/css" >
-</style><table id="T_93691f02_f2c0_11ea_b87e_1062e559cd4d" ><thead>    <tr>        <th class="col_heading level0 col0" >id</th>        <th class="col_heading level0 col1" >name</th>        <th class="col_heading level0 col2" >country</th>        <th class="col_heading level0 col3" >email</th>    </tr></thead><tbody>
+</style><table id="T_83028b1e_f407_11ea_b4ba_1062e559cd4d" ><thead>    <tr>        <th class="col_heading level0 col0" >id</th>        <th class="col_heading level0 col1" >name</th>        <th class="col_heading level0 col2" >country</th>        <th class="col_heading level0 col3" >email</th>    </tr></thead><tbody>
                 <tr>
-                                <td id="T_93691f02_f2c0_11ea_b87e_1062e559cd4drow0_col0" class="data row0 col0" >1</td>
-                        <td id="T_93691f02_f2c0_11ea_b87e_1062e559cd4drow0_col1" class="data row0 col1" >Mohamed Ragab</td>
-                        <td id="T_93691f02_f2c0_11ea_b87e_1062e559cd4drow0_col2" class="data row0 col2" >Egypt</td>
-                        <td id="T_93691f02_f2c0_11ea_b87e_1062e559cd4drow0_col3" class="data row0 col3" >mohamed.ragb@ut.ee</td>
+                                <td id="T_83028b1e_f407_11ea_b4ba_1062e559cd4drow0_col0" class="data row0 col0" >1</td>
+                        <td id="T_83028b1e_f407_11ea_b4ba_1062e559cd4drow0_col1" class="data row0 col1" >Mohamed Ragab</td>
+                        <td id="T_83028b1e_f407_11ea_b4ba_1062e559cd4drow0_col2" class="data row0 col2" >Egypt</td>
+                        <td id="T_83028b1e_f407_11ea_b4ba_1062e559cd4drow0_col3" class="data row0 col3" >mohamed.ragb@ut.ee</td>
             </tr>
             <tr>
-                                <td id="T_93691f02_f2c0_11ea_b87e_1062e559cd4drow1_col0" class="data row1 col0" >2</td>
-                        <td id="T_93691f02_f2c0_11ea_b87e_1062e559cd4drow1_col1" class="data row1 col1" >John Smith</td>
-                        <td id="T_93691f02_f2c0_11ea_b87e_1062e559cd4drow1_col2" class="data row1 col2" >Finland</td>
-                        <td id="T_93691f02_f2c0_11ea_b87e_1062e559cd4drow1_col3" class="data row1 col3" >j.smith@hotmail.com</td>
+                                <td id="T_83028b1e_f407_11ea_b4ba_1062e559cd4drow1_col0" class="data row1 col0" >2</td>
+                        <td id="T_83028b1e_f407_11ea_b4ba_1062e559cd4drow1_col1" class="data row1 col1" >John Smith</td>
+                        <td id="T_83028b1e_f407_11ea_b4ba_1062e559cd4drow1_col2" class="data row1 col2" >Finland</td>
+                        <td id="T_83028b1e_f407_11ea_b4ba_1062e559cd4drow1_col3" class="data row1 col3" >j.smith@hotmail.com</td>
             </tr>
             <tr>
-                                <td id="T_93691f02_f2c0_11ea_b87e_1062e559cd4drow2_col0" class="data row2 col0" >4</td>
-                        <td id="T_93691f02_f2c0_11ea_b87e_1062e559cd4drow2_col1" class="data row2 col1" >Jean Lime</td>
-                        <td id="T_93691f02_f2c0_11ea_b87e_1062e559cd4drow2_col2" class="data row2 col2" >Canda</td>
-                        <td id="T_93691f02_f2c0_11ea_b87e_1062e559cd4drow2_col3" class="data row2 col3" >jeanlime@gmail.com</td>
+                                <td id="T_83028b1e_f407_11ea_b4ba_1062e559cd4drow2_col0" class="data row2 col0" >4</td>
+                        <td id="T_83028b1e_f407_11ea_b4ba_1062e559cd4drow2_col1" class="data row2 col1" >Jean Lime</td>
+                        <td id="T_83028b1e_f407_11ea_b4ba_1062e559cd4drow2_col2" class="data row2 col2" >Canda</td>
+                        <td id="T_83028b1e_f407_11ea_b4ba_1062e559cd4drow2_col3" class="data row2 col3" >jeanlime@gmail.com</td>
             </tr>
             <tr>
-                                <td id="T_93691f02_f2c0_11ea_b87e_1062e559cd4drow3_col0" class="data row3 col0" >5</td>
-                        <td id="T_93691f02_f2c0_11ea_b87e_1062e559cd4drow3_col1" class="data row3 col1" >Hassan Eldeeb</td>
-                        <td id="T_93691f02_f2c0_11ea_b87e_1062e559cd4drow3_col2" class="data row3 col2" >Egypt</td>
-                        <td id="T_93691f02_f2c0_11ea_b87e_1062e559cd4drow3_col3" class="data row3 col3" >None</td>
+                                <td id="T_83028b1e_f407_11ea_b4ba_1062e559cd4drow3_col0" class="data row3 col0" >5</td>
+                        <td id="T_83028b1e_f407_11ea_b4ba_1062e559cd4drow3_col1" class="data row3 col1" >Hassan Eldeeb</td>
+                        <td id="T_83028b1e_f407_11ea_b4ba_1062e559cd4drow3_col2" class="data row3 col2" >Egypt</td>
+                        <td id="T_83028b1e_f407_11ea_b4ba_1062e559cd4drow3_col3" class="data row3 col3" >None</td>
             </tr>
             <tr>
-                                <td id="T_93691f02_f2c0_11ea_b87e_1062e559cd4drow4_col0" class="data row4 col0" >3</td>
-                        <td id="T_93691f02_f2c0_11ea_b87e_1062e559cd4drow4_col1" class="data row4 col1" >Aisha Kareem</td>
-                        <td id="T_93691f02_f2c0_11ea_b87e_1062e559cd4drow4_col2" class="data row4 col2" >India</td>
-                        <td id="T_93691f02_f2c0_11ea_b87e_1062e559cd4drow4_col3" class="data row4 col3" >None</td>
+                                <td id="T_83028b1e_f407_11ea_b4ba_1062e559cd4drow4_col0" class="data row4 col0" >3</td>
+                        <td id="T_83028b1e_f407_11ea_b4ba_1062e559cd4drow4_col1" class="data row4 col1" >Aisha Kareem</td>
+                        <td id="T_83028b1e_f407_11ea_b4ba_1062e559cd4drow4_col2" class="data row4 col2" >India</td>
+                        <td id="T_83028b1e_f407_11ea_b4ba_1062e559cd4drow4_col3" class="data row4 col3" >None</td>
             </tr>
     </tbody></table>
 </div>
@@ -14130,7 +14151,7 @@ Email =  None
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Get-Distinct-Countries-of-users">Get Distinct Countries of users<a class="anchor-link" href="#Get-Distinct-Countries-of-users">&#182;</a></h4>
+<h4 id="Get-Distinct-Countries-of-customers">Get Distinct Countries of customers<a class="anchor-link" href="#Get-Distinct-Countries-of-customers">&#182;</a></h4>
 </div>
 </div>
 </div>
@@ -14197,7 +14218,7 @@ Email =  None
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[36]:</div>
+<div class="prompt input_prompt">In&nbsp;[66]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">customersWithEmails</span><span class="o">=</span> <span class="n">psql</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span><span class="s2">&quot;SELECT * FROM customer WHERE email != &#39;&#39;  &quot;</span><span class="p">,</span> <span class="n">con</span><span class="p">)</span>
@@ -14220,24 +14241,24 @@ Email =  None
 
 <div class="output_html rendered_html output_subarea ">
 <style  type="text/css" >
-</style><table id="T_8384c63e_f2c1_11ea_897f_1062e559cd4d" ><thead>    <tr>        <th class="col_heading level0 col0" >id</th>        <th class="col_heading level0 col1" >name</th>        <th class="col_heading level0 col2" >country</th>        <th class="col_heading level0 col3" >email</th>    </tr></thead><tbody>
+</style><table id="T_87f5e60a_f407_11ea_bc3b_1062e559cd4d" ><thead>    <tr>        <th class="col_heading level0 col0" >id</th>        <th class="col_heading level0 col1" >name</th>        <th class="col_heading level0 col2" >country</th>        <th class="col_heading level0 col3" >email</th>    </tr></thead><tbody>
                 <tr>
-                                <td id="T_8384c63e_f2c1_11ea_897f_1062e559cd4drow0_col0" class="data row0 col0" >1</td>
-                        <td id="T_8384c63e_f2c1_11ea_897f_1062e559cd4drow0_col1" class="data row0 col1" >Mohamed Ragab</td>
-                        <td id="T_8384c63e_f2c1_11ea_897f_1062e559cd4drow0_col2" class="data row0 col2" >Egypt</td>
-                        <td id="T_8384c63e_f2c1_11ea_897f_1062e559cd4drow0_col3" class="data row0 col3" >mohamed.ragb@ut.ee</td>
+                                <td id="T_87f5e60a_f407_11ea_bc3b_1062e559cd4drow0_col0" class="data row0 col0" >1</td>
+                        <td id="T_87f5e60a_f407_11ea_bc3b_1062e559cd4drow0_col1" class="data row0 col1" >Mohamed Ragab</td>
+                        <td id="T_87f5e60a_f407_11ea_bc3b_1062e559cd4drow0_col2" class="data row0 col2" >Egypt</td>
+                        <td id="T_87f5e60a_f407_11ea_bc3b_1062e559cd4drow0_col3" class="data row0 col3" >mohamed.ragb@ut.ee</td>
             </tr>
             <tr>
-                                <td id="T_8384c63e_f2c1_11ea_897f_1062e559cd4drow1_col0" class="data row1 col0" >2</td>
-                        <td id="T_8384c63e_f2c1_11ea_897f_1062e559cd4drow1_col1" class="data row1 col1" >John Smith</td>
-                        <td id="T_8384c63e_f2c1_11ea_897f_1062e559cd4drow1_col2" class="data row1 col2" >Finland</td>
-                        <td id="T_8384c63e_f2c1_11ea_897f_1062e559cd4drow1_col3" class="data row1 col3" >j.smith@hotmail.com</td>
+                                <td id="T_87f5e60a_f407_11ea_bc3b_1062e559cd4drow1_col0" class="data row1 col0" >2</td>
+                        <td id="T_87f5e60a_f407_11ea_bc3b_1062e559cd4drow1_col1" class="data row1 col1" >John Smith</td>
+                        <td id="T_87f5e60a_f407_11ea_bc3b_1062e559cd4drow1_col2" class="data row1 col2" >Finland</td>
+                        <td id="T_87f5e60a_f407_11ea_bc3b_1062e559cd4drow1_col3" class="data row1 col3" >j.smith@hotmail.com</td>
             </tr>
             <tr>
-                                <td id="T_8384c63e_f2c1_11ea_897f_1062e559cd4drow2_col0" class="data row2 col0" >4</td>
-                        <td id="T_8384c63e_f2c1_11ea_897f_1062e559cd4drow2_col1" class="data row2 col1" >Jean Lime</td>
-                        <td id="T_8384c63e_f2c1_11ea_897f_1062e559cd4drow2_col2" class="data row2 col2" >Canda</td>
-                        <td id="T_8384c63e_f2c1_11ea_897f_1062e559cd4drow2_col3" class="data row2 col3" >jeanlime@gmail.com</td>
+                                <td id="T_87f5e60a_f407_11ea_bc3b_1062e559cd4drow2_col0" class="data row2 col0" >4</td>
+                        <td id="T_87f5e60a_f407_11ea_bc3b_1062e559cd4drow2_col1" class="data row2 col1" >Jean Lime</td>
+                        <td id="T_87f5e60a_f407_11ea_bc3b_1062e559cd4drow2_col2" class="data row2 col2" >Canda</td>
+                        <td id="T_87f5e60a_f407_11ea_bc3b_1062e559cd4drow2_col3" class="data row2 col3" >jeanlime@gmail.com</td>
             </tr>
     </tbody></table>
 </div>
@@ -14257,7 +14278,7 @@ Email =  None
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[38]:</div>
+<div class="prompt input_prompt">In&nbsp;[67]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">theEgyptian</span><span class="o">=</span> <span class="n">psql</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span><span class="s2">&quot;SELECT * FROM customer WHERE country = &#39;Egypt&#39;  &quot;</span><span class="p">,</span> <span class="n">con</span><span class="p">)</span>
@@ -14280,18 +14301,18 @@ Email =  None
 
 <div class="output_html rendered_html output_subarea ">
 <style  type="text/css" >
-</style><table id="T_b51cc4ec_f2c1_11ea_a98c_1062e559cd4d" ><thead>    <tr>        <th class="col_heading level0 col0" >id</th>        <th class="col_heading level0 col1" >name</th>        <th class="col_heading level0 col2" >country</th>        <th class="col_heading level0 col3" >email</th>    </tr></thead><tbody>
+</style><table id="T_8beabd6c_f407_11ea_967b_1062e559cd4d" ><thead>    <tr>        <th class="col_heading level0 col0" >id</th>        <th class="col_heading level0 col1" >name</th>        <th class="col_heading level0 col2" >country</th>        <th class="col_heading level0 col3" >email</th>    </tr></thead><tbody>
                 <tr>
-                                <td id="T_b51cc4ec_f2c1_11ea_a98c_1062e559cd4drow0_col0" class="data row0 col0" >1</td>
-                        <td id="T_b51cc4ec_f2c1_11ea_a98c_1062e559cd4drow0_col1" class="data row0 col1" >Mohamed Ragab</td>
-                        <td id="T_b51cc4ec_f2c1_11ea_a98c_1062e559cd4drow0_col2" class="data row0 col2" >Egypt</td>
-                        <td id="T_b51cc4ec_f2c1_11ea_a98c_1062e559cd4drow0_col3" class="data row0 col3" >mohamed.ragb@ut.ee</td>
+                                <td id="T_8beabd6c_f407_11ea_967b_1062e559cd4drow0_col0" class="data row0 col0" >1</td>
+                        <td id="T_8beabd6c_f407_11ea_967b_1062e559cd4drow0_col1" class="data row0 col1" >Mohamed Ragab</td>
+                        <td id="T_8beabd6c_f407_11ea_967b_1062e559cd4drow0_col2" class="data row0 col2" >Egypt</td>
+                        <td id="T_8beabd6c_f407_11ea_967b_1062e559cd4drow0_col3" class="data row0 col3" >mohamed.ragb@ut.ee</td>
             </tr>
             <tr>
-                                <td id="T_b51cc4ec_f2c1_11ea_a98c_1062e559cd4drow1_col0" class="data row1 col0" >5</td>
-                        <td id="T_b51cc4ec_f2c1_11ea_a98c_1062e559cd4drow1_col1" class="data row1 col1" >Hassan Eldeeb</td>
-                        <td id="T_b51cc4ec_f2c1_11ea_a98c_1062e559cd4drow1_col2" class="data row1 col2" >Egypt</td>
-                        <td id="T_b51cc4ec_f2c1_11ea_a98c_1062e559cd4drow1_col3" class="data row1 col3" >None</td>
+                                <td id="T_8beabd6c_f407_11ea_967b_1062e559cd4drow1_col0" class="data row1 col0" >5</td>
+                        <td id="T_8beabd6c_f407_11ea_967b_1062e559cd4drow1_col1" class="data row1 col1" >Hassan Eldeeb</td>
+                        <td id="T_8beabd6c_f407_11ea_967b_1062e559cd4drow1_col2" class="data row1 col2" >Egypt</td>
+                        <td id="T_8beabd6c_f407_11ea_967b_1062e559cd4drow1_col3" class="data row1 col3" >None</td>
             </tr>
     </tbody></table>
 </div>
@@ -14305,7 +14326,7 @@ Email =  None
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Get-customers-who-are-from-Egypt-and-have-emails">Get customers who are from Egypt and have emails<a class="anchor-link" href="#Get-customers-who-are-from-Egypt-and-have-emails">&#182;</a></h4>
+<h4 id="Get-customers-who-are-from-Egypt-and-already-have-emails">Get customers who are from Egypt and already have emails<a class="anchor-link" href="#Get-customers-who-are-from-Egypt-and-already-have-emails">&#182;</a></h4>
 </div>
 </div>
 </div>
@@ -14314,7 +14335,7 @@ Email =  None
 <div class="prompt input_prompt">In&nbsp;[40]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">theEgyptianWithEmail</span><span class="o">=</span> <span class="n">psql</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span><span class="s2">&quot;SELECT * FROM customer WHERE country = &#39;Egypt&#39;  AND email !=&#39;&#39; &quot;</span><span class="p">,</span> <span class="n">con</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">theEgyptianWithEmail</span><span class="o">=</span> <span class="n">psql</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span><span class="s2">&quot;SELECT * FROM customer WHERE country = &#39;Egypt&#39; AND email !=&#39;&#39; &quot;</span><span class="p">,</span> <span class="n">con</span><span class="p">)</span>
 <span class="n">display</span><span class="p">(</span><span class="n">theEgyptianWithEmail</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">hide_index</span><span class="p">())</span>
 </pre></div>
 
@@ -14407,7 +14428,7 @@ Email =  None
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Pagination--in-SQL,-using-&quot;LIMT&quot;-and-&quot;OFFSET&quot;">Pagination  in SQL, using "LIMT" and "OFFSET"<a class="anchor-link" href="#Pagination--in-SQL,-using-&quot;LIMT&quot;-and-&quot;OFFSET&quot;">&#182;</a></h4>
+<h3 id="Pagination--in-SQL,-using-&quot;LIMT&quot;-and-&quot;OFFSET&quot;">Pagination  in SQL, using "LIMT" and "OFFSET"<a class="anchor-link" href="#Pagination--in-SQL,-using-&quot;LIMT&quot;-and-&quot;OFFSET&quot;">&#182;</a></h3>
 </div>
 </div>
 </div>
@@ -15790,6 +15811,13 @@ Email =  None
 </div>
 </div>
 </div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Create-the-MovieDB">Create the MovieDB<a class="anchor-link" href="#Create-the-MovieDB">&#182;</a></h4>
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[3]:</div>
@@ -15852,7 +15880,7 @@ Database Already Exists!!
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="get-a-new-connection-but-this-time-point-to-the-created-&quot;moviedb&quot;.">get a new connection but this time point to the created "moviedb".<a class="anchor-link" href="#get-a-new-connection-but-this-time-point-to-the-created-&quot;moviedb&quot;.">&#182;</a></h4>
+<h4 id="Get-a-new-connection-but-this-time-point-to-the-created-&quot;moviedb&quot;.">Get a new connection but this time point to the created "moviedb".<a class="anchor-link" href="#Get-a-new-connection-but-this-time-point-to-the-created-&quot;moviedb&quot;.">&#182;</a></h4>
 </div>
 </div>
 </div>
@@ -15880,7 +15908,7 @@ Database Already Exists!!
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Creating--the-DB-Tables">Creating  the DB Tables<a class="anchor-link" href="#Creating--the-DB-Tables">&#182;</a></h3>
+<h3 id="Creating--the-Tables-of-the-MovieDB">Creating  the Tables of the MovieDB<a class="anchor-link" href="#Creating--the-Tables-of-the-MovieDB">&#182;</a></h3>
 </div>
 </div>
 </div>
@@ -15967,9 +15995,8 @@ Table (roles) already Existed!
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Data-Insertions">Data Insertions<a class="anchor-link" href="#Data-Insertions">&#182;</a></h3><ul>
-<li><p>Use the following demo datasets for allocating some data in the tables</p>
-</li>
+<h3 id="Data-Insertions">Data Insertions<a class="anchor-link" href="#Data-Insertions">&#182;</a></h3><p>Please, use the following demo datasets for allocating some data in the tables</p>
+<ul>
 <li><p><strong>Person Table</strong>:</p>
 
 <pre><code>  id,name
@@ -15997,6 +16024,13 @@ Table (roles) already Existed!
 </li>
 </ul>
 
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Insert-Data-to-the-Person-Table">Insert Data to the Person Table<a class="anchor-link" href="#Insert-Data-to-the-Person-Table">&#182;</a></h4>
 </div>
 </div>
 </div>
@@ -16040,26 +16074,6 @@ Table (roles) already Existed!
 </div>
 </div>
 
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># ###Will be deleted</span>
-<span class="c1"># postgres_insert_query = &quot;&quot;&quot; INSERT INTO users (ID, Name, PWD) VALUES (%s,%s,%s)&quot;&quot;&quot;</span>
-<span class="c1"># record_to_insert = (1, &#39;MohamedRagab&#39;, &#39;12345&#39;)</span>
-<span class="c1"># cursor.execute(postgres_insert_query, record_to_insert)</span>
-
-<span class="c1"># connection.commit()</span>
-<span class="c1"># count = cursor.rowcount</span>
-<span class="c1"># print (count, &quot;Record inserted successfully into mobile table&quot;)</span>
-</pre></div>
-
-    </div>
 </div>
 </div>
 
@@ -16115,6 +16129,13 @@ Table (roles) already Existed!
 </div>
 
 </div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Insert-Data-to-the-Movie-Table">Insert Data to the Movie Table<a class="anchor-link" href="#Insert-Data-to-the-Movie-Table">&#182;</a></h4>
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[36]:</div>
@@ -16159,6 +16180,13 @@ Table (roles) already Existed!
 </div>
 </div>
 
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Insert-Data-to-the-Roles-Table">Insert Data to the Roles Table<a class="anchor-link" href="#Insert-Data-to-the-Roles-Table">&#182;</a></h4>
+</div>
+</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -16213,6 +16241,13 @@ Table (roles) already Existed!
 </div>
 </div>
 
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Get-all-Actors-(Persons)-from-the-movie-DB">Get all Actors (Persons) from the movie DB<a class="anchor-link" href="#Get-all-Actors-(Persons)-from-the-movie-DB">&#182;</a></h4>
+</div>
+</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -16274,39 +16309,6 @@ Name  =  Lana Wachowski
 </div>
 </div>
 
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># sql_select_query = &quot;&quot;&quot;SELECT * FROM users LIMIT 5&quot;&quot;&quot;</span>
-<span class="c1"># cursor.execute(sql_select_query, (1,))</span>
-<span class="c1"># user_records = cursor.fetchall() </span>
-<span class="c1"># print(&quot;Print each row and it&#39;s columns values&quot;)</span>
-<span class="c1"># for row in user_records:</span>
-<span class="c1">#     print(&quot;Id = &quot;, row[0], )</span>
-<span class="c1">#     print(&quot;Name = &quot;, row[1])</span>
-<span class="c1">#     print(&quot;PWD  = &quot;, row[2], &quot;\n&quot;)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Note: In the above example, we used cursor.fetchall() to get all the rows of a database table.</p>
-<ul>
-<li>cursor.fetchall() to fetch all rows.</li>
-<li>cursor.fetchone() to fetch single row.</li>
-<li>cursor.fetchmany(SIZE) to fetch limited rows</li>
-</ul>
-
-</div>
-</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -16415,7 +16417,7 @@ Name  =  Lana Wachowski
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Sorting-the-Results">Sorting the Results<a class="anchor-link" href="#Sorting-the-Results">&#182;</a></h3><h4 id="Get-All-Movies-,-sorted-from-recent-to-old">Get All Movies , sorted from recent to old<a class="anchor-link" href="#Get-All-Movies-,-sorted-from-recent-to-old">&#182;</a></h4>
+<h4 id="Get-All-Movies-,-sorted-from-recent-to-old">Get All Movies , sorted from recent to old<a class="anchor-link" href="#Get-All-Movies-,-sorted-from-recent-to-old">&#182;</a></h4>
 </div>
 </div>
 </div>
@@ -16474,7 +16476,7 @@ Name  =  Lana Wachowski
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Filtering-the-Results">Filtering the Results<a class="anchor-link" href="#Filtering-the-Results">&#182;</a></h3><h4 id="Get-All-Movies-released-in-the-90s-(after-year-(1990)-and-before-2000)-ordered-from-old-to-recent.">Get All Movies released in the 90s (after year (1990) and before 2000) ordered from old to recent.<a class="anchor-link" href="#Get-All-Movies-released-in-the-90s-(after-year-(1990)-and-before-2000)-ordered-from-old-to-recent.">&#182;</a></h4>
+<h4 id="Get-All-Movies-released-in-the-90s-(after-year-(1990)-and-before-2000)-ordered-from-old-to-recent.">Get All Movies released in the 90s (after year (1990) and before 2000) ordered from old to recent.<a class="anchor-link" href="#Get-All-Movies-released-in-the-90s-(after-year-(1990)-and-before-2000)-ordered-from-old-to-recent.">&#182;</a></h4>
 </div>
 </div>
 </div>
@@ -16526,13 +16528,6 @@ Name  =  Lana Wachowski
 </div>
 </div>
 
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Querying-from-multiple-tables">Querying from multiple tables<a class="anchor-link" href="#Querying-from-multiple-tables">&#182;</a></h3>
-</div>
-</div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
@@ -16609,7 +16604,7 @@ Name  =  Lana Wachowski
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Aggregations-in-PostgreSQL">Aggregations in PostgreSQL<a class="anchor-link" href="#Aggregations-in-PostgreSQL">&#182;</a></h3><h4 id="Get-count-of-&quot;Movies&quot;-in-your-DB">Get count of "Movies" in your DB<a class="anchor-link" href="#Get-count-of-&quot;Movies&quot;-in-your-DB">&#182;</a></h4>
+<h4 id="Get-count-of-&quot;Movies&quot;-in-your-DB">Get count of "Movies" in your DB<a class="anchor-link" href="#Get-count-of-&quot;Movies&quot;-in-your-DB">&#182;</a></h4>
 </div>
 </div>
 </div>
@@ -16786,7 +16781,7 @@ Name  =  Lana Wachowski
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="UPDATE-Table-Data">UPDATE Table Data<a class="anchor-link" href="#UPDATE-Table-Data">&#182;</a></h3>
+<h3 id="UPDATE-Table-Data">UPDATE Table Data<a class="anchor-link" href="#UPDATE-Table-Data">&#182;</a></h3><h4 id="update-the-year-of-production-of-the-movie-&quot;Wall-Street&quot;-to-be-2000-instead-of-it's-current-year">update the year of production of the movie "Wall Street" to be 2000 instead of it's current year<a class="anchor-link" href="#update-the-year-of-production-of-the-movie-&quot;Wall-Street&quot;-to-be-2000-instead-of-it's-current-year">&#182;</a></h4>
 </div>
 </div>
 </div>
@@ -16846,7 +16841,7 @@ Table After updating record
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Delete-Table-rows">Delete Table rows<a class="anchor-link" href="#Delete-Table-rows">&#182;</a></h2>
+<h2 id="Delete-Table-rows">Delete Table rows<a class="anchor-link" href="#Delete-Table-rows">&#182;</a></h2><h4 id="Delete-the-movie-with-id-=1">Delete the movie with id =1<a class="anchor-link" href="#Delete-the-movie-with-id-=1">&#182;</a></h4>
 </div>
 </div>
 </div>
@@ -16886,28 +16881,10 @@ Table After updating record
 </div>
 
 </div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[29]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># # Update single record now</span>
-<span class="c1"># sql_delete_query = &quot;&quot;&quot;Delete from users where id = %s&quot;&quot;&quot;</span>
-<span class="c1"># cursor.execute(sql_delete_query, (1, ))</span>
-<span class="c1"># connection.commit()</span>
-<span class="c1"># count = cursor.rowcount</span>
-<span class="c1"># print(count, &quot;Record deleted successfully &quot;)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Extend-you-&quot;Movies&quot;-DB">Extend you "Movies" DB<a class="anchor-link" href="#Extend-you-&quot;Movies&quot;-DB">&#182;</a></h3><p>Imagine now that we are going to extend our DB with new movies, actors, even with new directors.</p>
+<h2 id="Extend-you-&quot;Movies&quot;-DB">Extend you "Movies" DB<a class="anchor-link" href="#Extend-you-&quot;Movies&quot;-DB">&#182;</a></h2><p>Imagine now that we are going to extend our DB with new movies, actors, even with new directors.</p>
 <ul>
 <li><p>We add <b>"The matrix"</b> movie which was released in <b>(1999)</b>, and has a new property "Tagline" <b>("Welcome to the Real World")</b>.</p>
 <ul>
@@ -17185,7 +17162,8 @@ Table After updating record
 <div class="prompt input_prompt">In&nbsp;[40]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#Create ROLES Table</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#Create Label Table</span>
+
 <span class="k">try</span><span class="p">:</span>
     <span class="n">LabelsTable</span><span class="o">=</span><span class="s2">&quot;Label&quot;</span>
     <span class="n">create_Laabeles_Table_query</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;CREATE TABLE &#39;&#39;&#39;</span><span class="o">+</span> <span class="n">LabelsTable</span><span class="o">+</span><span class="s1">&#39;&#39;&#39; </span>
@@ -17200,7 +17178,7 @@ Table After updating record
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Table (&quot;</span><span class="o">+</span> <span class="n">LabelsTable</span> <span class="o">+</span><span class="s2">&quot;) already Existed! &quot;</span><span class="p">)</span>
 
 
-<span class="c1">#Create Roles Table</span>
+<span class="c1">#Create Person_Label Table</span>
 <span class="k">try</span><span class="p">:</span>
     <span class="n">Person_Labels_Table</span><span class="o">=</span><span class="s2">&quot;Person_Label&quot;</span>
     <span class="n">create_personLabels_table_query</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;CREATE TABLE &#39;&#39;&#39;</span><span class="o">+</span> <span class="n">Person_Labels_Table</span><span class="o">+</span><span class="s1">&#39;&#39;&#39; </span>
@@ -17302,7 +17280,7 @@ WHERE person_label.labelid=1</code></p>
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Directed Relationship creation</span>
 
-<span class="c1">#Create Roles Table</span>
+<span class="c1">#Create Directed Table</span>
 <span class="k">try</span><span class="p">:</span>
     <span class="n">directedTable</span><span class="o">=</span><span class="s2">&quot;Directed&quot;</span>
     
