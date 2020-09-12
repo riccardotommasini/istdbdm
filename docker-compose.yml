@@ -1,0 +1,34 @@
+version: "3"
+
+services:
+  mongo:
+    image: mongo
+  postgres:
+    image: postgres
+    restart: always
+    ports:
+        - 5432:5432
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+  neo4j:
+    image: neo4j
+    ports:
+      - 7474:7474 
+      - 7687:7687
+    volumes:
+      - ./Neo4j:/var/lib/neo4j/import
+    environment:
+      - NEO4J_AUTH=none
+  redis: 
+    image: redis
+    ports:
+      - 6379:6379
+  notebook:
+    build: notebook/
+    ports:
+      - 8888:8888
+    volumes:
+       - ./:/home/jovyan/work/data
+    environment:
+      - GRANT_SUDO=yes
+      

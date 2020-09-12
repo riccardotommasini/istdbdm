@@ -1,0 +1,9 @@
+psycopg2-binary
+redis
+py2neo
+neo4j
+pymongo
+ipython-cypher
+ipython-sql
+kafka-python
+rdflib
