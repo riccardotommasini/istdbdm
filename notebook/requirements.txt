@@ -7,3 +7,4 @@ ipython-cypher
 ipython-sql
 kafka-python
 rdflib
+tf-nightly
