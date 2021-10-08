@@ -1,4 +1,4 @@
-# DataEngineeringCourseLabs2020
+# IST Data Base and Data Mining Lab Repo
 
 * **ToDOS**:
   - Add the RElatioanal Algebra Notes [Stanford]
