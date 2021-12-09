@@ -16,3 +16,7 @@ rdflib
 
 
 pandasql
+
+pydotplus
+
+graphviz
