@@ -1,10 +1,5 @@
-<<<<<<< HEAD
-# Repository of Data Engineering Course
-=======
-# IST Data Base and Data Mining Lab Repo
->>>>>>> 89832eed006504d42a01abeb83e88744c8d9414e
 
-## Branch for the Practices on Data Modeling
+# IST Data Base and Data Mining Lab Repo
 
 ### The Relational models using PostgreSQL
 
