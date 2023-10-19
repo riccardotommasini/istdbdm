@@ -1,0 +1,19 @@
+version: "3"
+
+services:
+  postgres:
+    image: postgres
+    restart: always
+    ports:
+        - 5432:5432
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: root@postgres.com
+      PGADMIN_DEFAULT_PASSWORD: root
+    ports:
+      - "8888:80"
+      
