@@ -9,6 +9,17 @@
 
 # Instructions 
 
+## Use GitHub Codespaces
+
+Codespaces natively support Visual Studio (both remotely via browser or locally via ssh connection).
+
+Follow [this](https://docs.github.com/en/codespaces/developing-in-a-codespace/creating-a-codespace-for-a-repository) guide to create the codespace for the repository.
+
+The you can operate directly in visual studio.
+
+
+## Local Installation 
+
 Installing "Python", "Jupyter Notebook", and "PostgreSQL".
 
 
