@@ -13,7 +13,8 @@ services:
     ports:
       - 8888:8888
     volumes:
-       - ./:/home/jovyan/work/data
+       - ./database/:/home/jovyan/work/database
+       - ./datamining/:/home/jovyan/work/datamining
     environment:
       - GRANT_SUDO=yes
       
