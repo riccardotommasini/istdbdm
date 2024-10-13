@@ -1,6 +1,6 @@
 {
   "dockerComposeFile": "docker-compose.yml",
-  "service": "postgres",
+  "service": "app",
   "waitFor": "onCreateCommand",
   "updateContentCommand": "",
   "postCreateCommand": "pip install --user -r requirements.txt",

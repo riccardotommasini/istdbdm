@@ -1,5 +1,14 @@
 version: "3.8"
 services:
+  app:
+    build:
+      context: ..
+      dockerfile: .devcontainer/Dockerfile
+    volumes:
+      - ../..:/workspaces:cached
+    command: sleep infinity
+    network_mode: service:db
+
   postgres:
     image: postgres
     container_name: local_pgdb
@@ -11,6 +20,7 @@ services:
       POSTGRES_PASSWORD: postgres
     volumes:
       - local_pgdata:/var/lib/postgresql/data
+      
   pgadmin:
     image: dpage/pgadmin4
     container_name: pgadmin4_container
