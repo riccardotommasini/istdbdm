@@ -7,7 +7,7 @@ services:
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_USER: postregs
+      POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     volumes:
       - local_pgdata:/var/lib/postgresql/data
@@ -20,9 +20,9 @@ services:
     environment:
       PGADMIN_DEFAULT_EMAIL: postgres@insa-lyon.fr
       PGADMIN_DEFAULT_PASSWORD: postgres
-      ME_CONFIG_BASICAUTH_USERNAME: admin
-      ME_CONFIG_BASICAUTH_PASSWORD: admin
       PGADMIN_CONFIG_SERVER_MODE: 'False'
+      PGADMIN_CONFIG_PROXY_X_HOST_COUNT: 1
+      PGADMIN_CONFIG_PROXY_X_PREFIX_COUNT: 1
     volumes:
       - pgadmin-data:/var/lib/pgadmin
 
