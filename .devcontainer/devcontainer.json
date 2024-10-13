@@ -5,7 +5,7 @@
   },
   "waitFor": "postCreateCommand",
   "updateContentCommand": "python3 -m pip install -r requirements.txt",
-  "postCreateCommand": "docker compose -f databases/docker-compose.yml up -d",
+  "postCreateCommand": "cd databases && docker compose up -d",
   "customizations": {
     "codespaces": {
       "openFiles": []
