@@ -7,11 +7,10 @@ services:
     volumes:
       - ../..:/workspaces:cached
     command: sleep infinity
-    network_mode: service:db
+    network_mode: service:postgres
 
   postgres:
     image: postgres
-    container_name: local_pgdb
     restart: always
     ports:
       - "5432:5432"

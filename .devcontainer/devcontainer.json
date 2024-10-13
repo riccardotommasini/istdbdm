@@ -5,7 +5,9 @@
   "updateContentCommand": "",
   "postCreateCommand": "pip install --user -r requirements.txt",
   "postAttachCommand": {},
-  "workspaceFolder": "/",
+  "hostRequirements": {
+      "cpus": 4
+  },
   "containerEnv": {
     "DATABASE_URL": "postgres://postgres:postgres@db/postgres"
   },
