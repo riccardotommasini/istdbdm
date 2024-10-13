@@ -3,25 +3,33 @@
 
 ### The Relational models using PostgreSQL
 
-#### Teaching Assistants: Mohamed Ragab and Fabiano Spiga
-
 #### [Practice Session slides](https://drive.google.com/file/d/1_SfRoWH07lcdYxV_rVjM5KhcQ-V_4gIO/view?usp=sharing)
 
 # Instructions 
 
-## Use GitHub Codespaces
+The practice works in Docker using Docker Compose.
 
-Codespaces natively support Visual Studio (both remotely via browser or locally via ssh connection).
+You can run it either Locally (as we saw in the docker lecture) or with [Github Codespace](https://30daysof.github.io/data-science-day/week-2/1-codespaces/)
 
-Follow [this](https://docs.github.com/en/codespaces/developing-in-a-codespace/creating-a-codespace-for-a-repository) guide to create the codespace for the repository.
+### Locally
 
-The you can operate directly in visual studio.
+- Pull the latest version of this repository
+- cd into the .devcontainer folder
+- run docker compose
+  - you can use Visualstudio Code
+  - you can use a dockerised installation of Jupyter
+  - in the compose there is also a pgAdmin  client container to visualise the content of the database. Accessible locally on port 8888
+  
+### CodeSpace
 
+Open Codespace as indicated in the images below (use the main branch).
+And run docker in the codespace. From here on is the same as locally.
 
-## Local Installation 
+![codespaces](codespaces-howto.png)
 
-Installing "Python", "Jupyter Notebook", and "PostgreSQL".
+![visualstudio](codespaces-visualstudio.png)
 
+## Native Installation (legacy)
 
 ### Windows Users:
 
