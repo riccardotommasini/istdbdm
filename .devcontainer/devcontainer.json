@@ -1,20 +1,32 @@
 {
-  "image": "mcr.microsoft.com/devcontainers/universal:2",
-  "hostRequirements": {
-    "cpus": 4
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "postgres",
+  "waitFor": "onCreateCommand",
+  "updateContentCommand": "",
+  "postCreateCommand": "pip install --user -r requirements.txt",
+  "postAttachCommand": {},
+  "workspaceFolder": "/",
+  "containerEnv": {
+    "DATABASE_URL": "postgres://postgres:postgres@db/postgres"
   },
-  "waitFor": "postCreateCommand",
-  "updateContentCommand": "python3 -m pip install -r requirements.txt",
-  "postCreateCommand": "docker compose up -d",
   "customizations": {
-    "codespaces": {
-      "openFiles": []
-    },
     "vscode": {
       "extensions": [
         "ms-toolsai.jupyter",
         "ms-python.python"
       ]
     }
-  }
+  },
+  "portsAttributes": {
+    "5432": {
+      "label": "postgres"
+    },
+    "8888": {
+      "label": "pgAdmin"
+    }
+  },
+  "forwardPorts": [
+    5432,
+    8888
+  ]
 }
